@@ -1,0 +1,315 @@
+{% extends 'user/home.html' %}
+{% block homelink %}{% endblock %}
+{% block title %}{{product.name}}{% endblock %}
+{% block content %}
+<!--================Single Product Area =================-->
+<div class="product_image_area">
+    <div class="container">
+        <div class="row s_product_inner">
+            <div class="col-lg-6">
+                <img class="img-fluid" src="{{product.image.url}}" alt="product image">
+            </div>
+            <div class="col-lg-5 offset-lg-1">
+                <div class="s_product_text">
+                    <h3>{{product.name}}</h3>
+                    <h2>${{product.price}}</h2>
+                    <ul>
+                        <li>Category: <a class="active" href="{% url 'user:category' product.category.id %}">{{product.category.name}}</a></li>
+                    </ul>
+                    <p>
+                        {{product.details}}
+                    </p>
+                    <div class="mt-3">
+                        <form class="product_count" action="{% url 'user:add_to_cart' product.id %}" method="post">
+                            {% csrf_token %}
+                            <label for="qty">Quantity:</label>
+                            <input type="number" name='qty' min="1" required>
+                            <input type="submit" name="action" value="Add to Cart"  class="button" style="width: 100px;">
+                            <input type="submit" name="action" value="Buy Now"  class="button" style="width: 80px;">
+                        </form>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--================End Single Product Area =================-->
+<!--================Product Description Area =================-->
+<section class="product_description_area">
+    <div class="container">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Description</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+                 aria-selected="false">Specification</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review"
+                 aria-selected="false">Reviews</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <p>To be implemented.</p>
+            </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <h5>Example Attribute</h5>
+                                </td>
+                                <td>
+                                    <h5>Example Value</h5>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h5>To be implemented</h5>
+                                </td>
+                                <td>
+                                    <h5>To be implemented</h5>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row total_rate">
+                            <div class="col-6">
+                                <div class="box_total">
+                                    <h5>Overall</h5>
+                                    <h4>{{avg_rating}}</h4>
+                                    <h6>({{reviews|length}} Reviews)</h6>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="rating_list">
+                                    <h3>Based on {{reviews|length}} Reviews</h3>
+                                    <ul class="list">
+                                        <li>
+                                        <a>5 Star
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            {{rating_5}}
+                                        </a>
+                                        </li>
+                                        <li>
+                                            <a>4 Star
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star text-dark"></i>
+                                                {{rating_4}}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a>3 Star
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star text-dark"></i>
+                                                <i class="fa fa-star text-dark"></i>
+                                                {{rating_3}}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a>2 Star
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star text-dark"></i>
+                                                <i class="fa fa-star text-dark"></i>
+                                                <i class="fa fa-star text-dark"></i>
+                                                {{rating_2}}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a>1 Star
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star text-dark"></i>
+                                                <i class="fa fa-star text-dark"></i>
+                                                <i class="fa fa-star text-dark"></i>
+                                                <i class="fa fa-star text-dark"></i>
+                                                {{rating_1}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review_list">
+                            {% for review in reviews %}
+                            <div class="review_item bg-light p-3">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <h4>{{review.user.name}}</h4>
+                                        <i id="{{review.id}}-1" class="fa fa-star text-dark"></i>
+                                        <i id="{{review.id}}-2" class="fa fa-star text-dark"></i>
+                                        <i id="{{review.id}}-3" class="fa fa-star text-dark"></i>
+                                        <i id="{{review.id}}-4" class="fa fa-star text-dark"></i>
+                                        <i id="{{review.id}}-5" class="fa fa-star text-dark"></i>
+                                    </div>
+                                    <h4>{{review.date}}</h4>
+                                </div>
+                                <p>{{review.details}}</p>
+                            </div>
+                            <script>
+                                rating = {{review.rating}};
+                                for (let i = 1; i <= rating; i++){
+                                    star = document.getElementById({{review.id}}+"-"+i);
+                                    star.setAttribute("class", "fa fa-star");
+                                }
+                            </script>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        {% if not purchased_product %}
+                        <p>You must purchase a product before you can review it.</p>
+                        {% elif reviewed %}
+                        <div class="review_box">
+                            <div class="d-flex justify-content-between">
+                                <h4>Edit Your Review</h4>
+                                <a href="{% url 'user:delete_review' product.id %}"><button class="button button--active button-review">Delete Review</button></a>
+                            </div>
+                            <p>New Rating:</p>
+                            <ul class="list">
+                                <li><a onclick="rating(1)"><i id="1" class="fa fa-star text-dark"></i></a></li>
+                                <li><a onclick="rating(2)"><i id="2" class="fa fa-star text-dark"></i></a></li>
+                                <li><a onclick="rating(3)"><i id="3" class="fa fa-star text-dark"></i></a></li>
+                                <li><a onclick="rating(4)"><i id="4" class="fa fa-star text-dark"></i></a></li>
+                                <li><a onclick="rating(5)"><i id="5" class="fa fa-star text-dark"></i></a></li>
+                            </ul>
+                            <p id="rating-adjective">(Required)</p>
+                            <script>                        
+                                function rating(n){
+                                    // set form value to rating
+                                    let ratingInput = document.getElementById("rating");
+                                    ratingInput.setAttribute('value', n);
+                                    // reset star colours
+                                    for (let i = 1; i <= 5; i++){
+                                        starElement = document.getElementById(i)
+                                        starElement.setAttribute("class", "fa fa-star text-dark")
+                                    }
+                                    // Set stars to yellow up to rating
+                                    for (let i = 1; i <= n; i++){
+                                        starElement = document.getElementById(i)
+                                        starElement.setAttribute("class", "fa fa-star")
+                                    }
+                                    let ratingAdjective = document.getElementById("rating-adjective")
+                                    let adjectives = ["Very Bad", "Bad", "Okay", "Good", "Very Good"]
+                                    ratingAdjective.innerText = adjectives[n-1]
+                                }
+                            </script>
+                            <form action="{% url 'user:product' product.id %}" class="form-contact form-review mt-3" method="post">
+                                {% csrf_token %}
+                                <input type="number" name="rating" id="rating" hidden required>
+                                <div class="form-group">
+                                    <textarea class="form-control different-control w-100" name="details" id="textarea" cols="30" rows="5" placeholder="Enter your review here" required></textarea>
+                                </div>
+                                <div class="form-group text-center text-md-right mt-3">
+                                    <input type="submit" name="action" value="Edit Review" class="button button--active button-review">
+                                </div>
+                            </form>
+                        </div>
+                        {% else %}
+                        <div class="review_box">
+                            <h4>Add a Review</h4>
+                            <p>Your Rating:</p>
+                            <ul class="list">
+                                <li><a onclick="rating(1)"><i id="1" class="fa fa-star text-dark"></i></a></li>
+                                <li><a onclick="rating(2)"><i id="2" class="fa fa-star text-dark"></i></a></li>
+                                <li><a onclick="rating(3)"><i id="3" class="fa fa-star text-dark"></i></a></li>
+                                <li><a onclick="rating(4)"><i id="4" class="fa fa-star text-dark"></i></a></li>
+                                <li><a onclick="rating(5)"><i id="5" class="fa fa-star text-dark"></i></a></li>
+                            </ul>
+                            <p id="rating-adjective">(Required)</p>
+                            <script>                        
+                                function rating(n){
+                                    // set form value to rating
+                                    let ratingInput = document.getElementById("rating");
+                                    ratingInput.setAttribute('value', n);
+                                    // reset star colours
+                                    for (let i = 1; i <= 5; i++){
+                                        starElement = document.getElementById(i)
+                                        starElement.setAttribute("class", "fa fa-star text-dark")
+                                    }
+                                    // Set stars to yellow up to rating
+                                    for (let i = 1; i <= n; i++){
+                                        starElement = document.getElementById(i)
+                                        starElement.setAttribute("class", "fa fa-star")
+                                    }
+                                    let ratingAdjective = document.getElementById("rating-adjective")
+                                    let adjectives = ["Very Bad", "Bad", "Okay", "Good", "Very Good"]
+                                    ratingAdjective.innerText = adjectives[n-1]
+                                }
+                            </script>
+                            <form action="{% url 'user:product' product.id %}" class="form-contact form-review mt-3" method="post">
+                                {% csrf_token %}
+                                <input type="number" name="rating" id="rating" hidden required>
+                                <div class="form-group">
+                                    <textarea class="form-control different-control w-100" name="details" id="textarea" cols="30" rows="5" placeholder="Enter your review here" required></textarea>
+                                </div>
+                                <div class="form-group text-center text-md-right mt-3">
+                                    <input type="submit" name="action" value="Add Review" class="button button--active button-review">
+                                </div>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End Product Description Area =================-->
+
+<!--================ Start related Product area =================-->  
+<section class="related-product-area section-margin--small mt-0">
+    <div class="container">
+        <div class="section-intro pb-60px">
+            <p>Other items from <a href="{% url 'user:category' product.category.id %}">{{product.category.name}}</a></p>
+            <h2>Similar <span class="section-intro__style">Products</span></h2>
+        </div>
+        <div class="owl-carousel owl-theme" id="bestSellerCarousel">
+            {% for product in products %}
+            <div class="card text-center card-product">
+                <div class="card-product__img">
+                  <img class="card-img" src="{{product.image.url}}" alt="Product image" height="250px" width="250px">
+                  <ul class="card-product__imgOverlay">
+                    <li><a href="{% url 'user:add_to_cart' product.id %}"><button onclick="addedToCart()"><i class="ti-shopping-cart"></i></button></a></li>
+                    <script>
+                      function addedToCart(){
+                        alert('This item was added to your cart')
+                      }
+                    </script>
+                    <li><a href="{% url 'user:buy_now' product.id %}"><button onclick="buyNow()"><i class="ti-credit-card"></i></button></a></li>
+                    <script>
+                      function buyNow(){
+                        alert('This will remove other items from your cart')
+                      }
+                    </script>
+                  </ul>
+                </div>
+                <div class="card-body">
+                  <a href="{% url 'user:category' product.category.id %}">{{product.category.name}}</a>
+                  <h4 class="card-product__title"><a href="{% url 'user:product' product.id %}">{{product.name}}</a></h4>
+                  <p class="card-product__price">${{product.price}}</p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+  </div>
+</section>
+<!--================ end related Product area =================-->  	
+
+{% endblock %}

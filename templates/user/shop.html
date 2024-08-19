@@ -1,0 +1,80 @@
+{% extends 'user/home.html' %}
+{% block homelink %}{% endblock %}
+{% block shoplink %}active{% endblock %}
+{% block title %}Shop{% endblock %}
+{% block content %}
+<!-- ================ start banner area ================= -->	
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                {% if category %}
+                <h1>{{category}}</h1>
+                {% elif search_term %}
+                <h1>You searched for: {{search_term}}</h1>
+                <h3><a href="" class="text-primary"> ← Back To Products </a></h3>
+                {% else %}
+                <h1>All Products</h1>
+                {% endif %}
+            </div>
+        </div>
+</div>
+</section>
+<!-- ================ end banner area ================= -->
+
+<div class="d-flex justify-content-center my-5">
+  <form class="input-group w-50" action="{% url 'user:search' %}" method="post">
+    {% csrf_token %}
+    <input name="search_term" type="text" required class="form-control" aria-label="Text input with segmented dropdown button" placeholder="Search by product name.">
+    <div class="input-group-append">
+      <button type="submit" class="btn btn-outline-primary">Search</button>
+    </div>
+  </form>
+</div>
+
+<!-- ================ category section start ================= -->		  
+<section class="section-margin--small mb-5">
+<div class="container">
+  <div class="row">
+    <div class="col-xl-12 col-lg-10 col-md-7">
+      <!-- Start Best Seller -->
+      <section class="lattest-product-area pb-40 category-list">
+        <div class="row">
+          <!-- Start of Product Card -->
+           {% for product in products %}
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card text-center card-product">
+              <div class="card-product__img">
+                <img class="card-img" src="{{product.image.url}}" alt="Product image" height="250px" width="250px">
+                <ul class="card-product__imgOverlay">
+                  <li><a href="{% url 'user:add_to_cart' product.id %}"><button onclick="addedToCart()"><i class="ti-shopping-cart"></i></button></a></li>
+                  <script>
+                    function addedToCart(){
+                      alert('This item was added to your cart')
+                    }
+                  </script>
+                  <li><a href="{% url 'user:buy_now' product.id %}"><button onclick="buyNow()"><i class="ti-credit-card"></i></button></a></li>
+                  <script>
+                    function buyNow(){
+                      alert('This will remove other items from your cart')
+                    }
+                  </script>
+                </ul>
+              </div>
+              <div class="card-body">
+                <a href="{% url 'user:category' product.category.id %}">{{product.category.name}}</a>
+                <h4 class="card-product__title"><a href="{% url 'user:product' product.id %}">{{product.name}}</a></h4>
+                <p class="card-product__price">${{product.price}}</p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          <!-- End of Product Card -->
+      </section>
+      <!-- End Best Seller -->
+    </div>
+  </div>
+</div>
+</section>
+<!-- ================ category section end ================= -->		  
+{% endblock %}

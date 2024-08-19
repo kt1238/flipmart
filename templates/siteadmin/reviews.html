@@ -1,0 +1,27 @@
+{% extends 'siteadmin/home.html' %}
+{% block title %}Reviews{% endblock %}
+{% block heading %}Reviews{% endblock %}
+{% block content %}
+<table class="table table-hover">
+    <tr>
+        <th>ID</th>
+        <th>Product</th>
+        <th>User</th>
+        <th>Rating</th>
+        <th>Details</th>
+        <th>Date</th>
+        <th></th>
+    </tr>
+    {% for review in reviews %}
+    <tr>
+        <td>{{review.id}}</td>
+        <td>{{review.product.name}}</td>
+        <td>{{review.user.name}}</td>
+        <td>{{review.rating}}</td>
+        <td>{{review.details}}</td>
+        <td>{{review.date}}</td>
+        <td class="text-center" style="width: 50px;"><a href="{% url 'delete_review' review.id %}"><button class="btn btn-outline-danger">Delete</button></a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock%}

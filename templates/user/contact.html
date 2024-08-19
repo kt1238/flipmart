@@ -1,0 +1,89 @@
+{% extends 'user/home.html' %}
+{% load static %}
+{% block homelink %}{% endblock homelink %}
+{% block contactlink %}active{% endblock contactlink %}
+{% block title %}Contact{% endblock %}
+{% block content %}
+<!-- ================ start banner area ================= -->
+<section class="blog-banner-area" id="contact">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>Contact Us</h1>
+            </div>
+        </div>
+</div>
+</section>
+<!-- ================ end banner area ================= -->
+
+<!-- ================ contact section start ================= -->
+<section class="section-margin--small">
+<div class="container">
+  <!-- ========================== map start =============================== -->
+  <script type="module" src="{% static 'js/map.js' %}"></script>
+  <div id="map" class="w-100 mb-3" style="height: 420px;"></div>
+  <script>
+    (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+      key: "AIzaSyC17Y2FFtqHkoLCDnB9u8i4z91T1KOVBqw",
+      v: "weekly",
+      // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
+      // Add other bootstrap parameters as needed, using camel case.
+    });
+  </script>
+  <!-- ========================== map end =============================== -->
+  <div class="row">
+    <div class="col-md-4 col-lg-3 mb-4 mb-md-0">
+      <div class="media contact-info">
+        <span class="contact-info__icon"><i class="ti-home"></i></span>
+        <div class="media-body">
+          <h3>Josh Towers, Padamughal</h3>
+          <p>Civil Line Road, Kochi</p>
+        </div>
+      </div>
+      <div class="media contact-info">
+        <span class="contact-info__icon"><i class="ti-headphone"></i></span>
+        <div class="media-body">
+          <h3><a href="tel:454545654">+91 7845128956</a></h3>
+          <p>Monday - Friday <br>
+             9:00 AM - 6:00 PM</p>
+        </div>
+      </div>
+      <div class="media contact-info">
+        <span class="contact-info__icon"><i class="ti-email"></i></span>
+        <div class="media-body">
+          <h3><a href="mailto:support@colorlib.com">contact@flipmart.com</a></h3>
+          <p>Send us your query anytime!</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8 col-lg-9">
+      <form action="" class="form-contact contact_form" action="" method="post" id="contactForm">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-lg-5">
+            <div class="form-group">
+              <input class="form-control" name="name" id="name" type="text" required placeholder="Enter Name">
+            </div>
+            <div class="form-group">
+              <input class="form-control" name="email" id="email" type="email" required placeholder="Enter Email">
+            </div>
+            <div class="form-group">
+              <input class="form-control" name="subject" id="subject" type="text" required placeholder="Enter Subject">
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="form-group">
+                <textarea class="form-control different-control w-100" name="message" id="message" required cols="30" rows="5" placeholder="Enter Message"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="form-group text-center text-md-right mt-3">
+          <input onclick="alert('Your message has been sent.')" type="submit" value="Send Message" class="button button--active button-contactForm">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</section>
+<!-- ================ contact section end ================= -->
+{% endblock %}

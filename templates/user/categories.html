@@ -1,0 +1,41 @@
+{% extends 'user/home.html' %}
+{% block homelink %}{% endblock %}
+{% block categorylink %}active{% endblock %}
+{% block title %}Categories{% endblock %}
+{% block content %}
+<!-- ================ start banner area ================= -->	
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>Categories</h1>
+            </div>
+        </div>
+</div>
+</section>
+<!-- ================ end banner area ================= -->
+<!-- ================ Best Selling item  carousel ================= --> 
+<section class="section-margin calc-60px">
+    <div class="container">
+      <div class="owl-carousel owl-theme" id="bestSellerCarousel">
+        {% for category in categories %}
+        <div class="card text-center card-product">
+          <div class="card-product__img">
+            <img src="{{category.image.url}}" alt="" height="250px">
+            <ul class="card-product__imgOverlay">
+              <li>
+                <a href="{% url 'user:category' category.id %}">
+                  <button class="rounded"><span class="" style="font-size: 1.5rem;">{{category.name}}</span></button>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="card-body">
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  <!-- ================ Best Selling item  carousel end ================= --> 
+{% endblock content %}

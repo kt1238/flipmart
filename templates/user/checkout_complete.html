@@ -1,0 +1,17 @@
+{% extends 'user/home.html' %}
+{% block homelink %}{% endblock %}
+{% block title %}Payment Complete{% endblock %}
+{% block content %}
+<!-- ================ start banner area ================= -->	
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>Payment Complete!</h1>
+                <a href="{% url 'user:shop' %}" class="btn btn-primary mt-3">Back To Products</a>
+            </div>
+        </div>
+</div>
+</section>
+<!-- ================ end banner area ================= -->
+{% endblock %}

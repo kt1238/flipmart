@@ -1,0 +1,96 @@
+{% extends 'user/home.html' %}
+{% block homelink %}{% endblock %}
+{% block title %}{{product.name}}{% endblock %}
+{% block content %}
+<!-- ================ start banner area ================= -->	
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>Review</h1>
+            </div>
+        </div>
+</div>
+</section>
+<!-- ================ end banner area ================= -->
+
+<!--================Start Review Area =================-->
+<div class="product_image_area">
+    <div class="container">
+        <div class="row s_product_inner">
+            <div class="col-lg-6">
+                <img class="img-fluid" src="{{product.image.url}}" alt="product image">
+            </div>
+            <div class="col-lg-6">
+                <div class="bg-light p-5">
+                    <h2 class="text-center">Details</h2>
+                    <h5>{{product.name}}</h5>
+                    <h2>${{product.price}}</h2>
+                    <a class="active" href="{% url 'user:category' product.category.id %}">{{product.category.name}}</a>
+                </div>
+                <div class="bg-light mt-3 p-5">
+                    <h2 class="text-center">Review</h2>
+                    {% if not purchased_product %}
+                    <h4 class="text-center">You must purchase this product before reviewing!</h4>
+                    {% elif reviewed %}
+                    <h4 class="text-center">Edit Review</h4>
+                    <form action="" class="form" method="post">
+                        {% csrf_token %}
+                        <!-- call rating(review.rating) at start? -->
+                        <label for="" class="form-label">New Rating</label>
+                        <span onclick="rating(1)" id="1" class="">★</span>
+                        <span onclick="rating(2)" id="2" class="">★</span>
+                        <span onclick="rating(3)" id="3" class="">★</span>
+                        <span onclick="rating(4)" id="4" class="">★</span>
+                        <span onclick="rating(5)" id="5" class="">★</span>
+                        <input type="number" min="1" max="5" step="1" id="rating" required hidden value="{{review.rating}}" name="rating" class="form-control mb-3">
+                        <br>
+                        <label for="" class="form-label">Details</label>
+                        <input type="text" name="details" required value="{{review.details}}" class="form-control mb-3">
+                        <input type="submit" class="btn btn-outline-primary">
+                    </form>
+                    {% else %}
+                    <h4 class="text-center">Create Review</h4>
+                    <form action="" class="form" method="post">
+                        {% csrf_token %}
+                        <label for="" class="form-label">Rating</label>
+                        <input type="number" min="1" max="5" step="1" id="rating" required name="rating"  hidden class="form-control mb-3">
+                        <span onclick="rating(1)" id="1" class="">★</span>
+                        <span onclick="rating(2)" id="2" class="">★</span>
+                        <span onclick="rating(3)" id="3" class="">★</span>
+                        <span onclick="rating(4)" id="4" class="">★</span>
+                        <span onclick="rating(5)" id="5" class="">★</span>
+                        <span>(min. 1 star)</span>
+                        <br>
+                        <label for="" class="form-label">Details</label>
+                        <input type="text" name="details" required class="form-control mb-3">
+                        <input type="submit" class="btn btn-outline-primary">
+                    </form>
+                    {% endif %}
+                    <div class="d-flex justify-content-center">
+                        <a href="{% url 'user:product' product.id %}" class="button">Back To Product</a>
+                    </div>
+                    <script>                        
+                        function rating(n){
+                            // set form value to rating
+                            let ratingInput = document.getElementById("rating");
+                            ratingInput.setAttribute('value', n);
+                            // reset star colours
+                            for (let i = 1; i <= 5; i++){
+                                starElement = document.getElementById(i)
+                                starElement.setAttribute("class", "")
+                            }
+                            // Set stars to yellow up to rating
+                            for (let i = 1; i <= n; i++){
+                                starElement = document.getElementById(i)
+                                starElement.setAttribute("class", "text-warning")
+                            }
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--================End Review Area =================-->
+{% endblock %}

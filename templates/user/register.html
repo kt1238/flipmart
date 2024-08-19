@@ -1,0 +1,86 @@
+{% extends 'user/home.html' %}
+{% block homelink %}{% endblock %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<!-- ================ start banner area ================= -->	
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>Register</h1>
+            </div>
+        </div>
+</div>
+</section>
+<!-- ================ end banner area ================= -->
+
+<!--================Register Box Area =================-->
+<section class="login_box_area section-margin">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="login_box_img">
+                    <div class="hover">
+                        <h4>Already have an account?</h4>
+                        <p>Continue from where you logged off. Browse thousands of products quickly and securely.</p>
+                        <a class="button button-account" href="{% url 'user:login' %}">Login Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="login_form_inner register_form_inner">
+                    <h3>Create an account</h3>
+                    <script>
+                        function validateForm(){
+                            let errorSection = document.getElementById('errorSection')
+                            let password = document.forms["register_form"]["password"].value;
+                            let confirmPassword = document.forms["register_form"]["confirmPassword"].value;
+                            if (password != confirmPassword) {
+                                errorSection.innerHTML = "Passwords do not match."
+                                return false;
+                            }
+                            return true;
+                        }
+                    </script>
+                    <form class="row login_form" action="{% url 'user:register' %}"  id="register_form" method="post"  onsubmit="return validateForm()">
+                        {% csrf_token %}
+                        <div class="col-md-12 form-group">
+                            <input type="text" class="form-control" id="name" name="name" pattern="^[A-Za-z].*$" required placeholder="Username (must start with letter)" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username (must start with letter)'">
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input type="email" class="form-control" id="email" name="email" required placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'">
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input type="password" class="form-control" id="password" name="password" required placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required placeholder="Confirm Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm Password'">
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <p id="errorSection" class="text-danger"></p>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <button type="submit" value="submit" class="button button-register w-100">Register</button>
+                        </div>
+                        {% if register_success and request_sent %}
+                        <div class="bg-success p-1 rounded w-100">
+                            <i class="ti-check text-white"></i>
+                            <p class="text-white">Registration was successful.</p>
+                        </div>
+                        {% elif not register_success and request_sent %}
+                        <div class="bg-danger p-1 rounded w-100">
+                            <i class="ti-alert text-white"></i>
+                            <p class="text-white mb-0">Registration was unsuccessful.</p>
+                            {% for reason in reasons %}
+                            <p class="text-white my-0">{{reason}}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End Register Box Area =================-->
+{% endblock %}

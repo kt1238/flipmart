@@ -1,0 +1,129 @@
+{% extends 'user/home.html' %}
+{% load static %}
+{% block homelink %}{% endblock %}
+{% block title %}Cart{% endblock %}
+{% block content %}
+<!-- ================ start banner area ================= -->	
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>Shopping Cart</h1>
+            </div>
+        </div>
+</div>
+</section>
+<!-- ================ end banner area ================= -->
+
+
+{% if cart_items %}
+<!--================Cart Area =================-->
+<section class="cart_area">
+  <div class="container">
+      <div class="cart_inner">
+          <div class="table-responsive">
+              <table class="table">
+                  <thead>
+                      <tr>
+                          <th scope="col">Product</th>
+                          <th scope="col">Price</th>
+                          <th scope="col">Quantity</th>
+                          <th scope="col">Total</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    <form action="" method="post">
+                      {% csrf_token %}
+                      {% for cart_item in cart_items %}
+                      <tr>
+                          <td>
+                              <div class="media">
+                                  <div class="d-flex">
+                                      <img src="{{cart_item.product.image.url}}" alt="" height="50" width="50">
+                                  </div>
+                                  <div class="media-body">
+                                      <a href="{% url 'user:product' cart_item.product.id %}">{{cart_item.product.name}}</a>
+                                  </div>
+                              </div>
+                          </td>
+                          <td>
+                              <h5>${{cart_item.product.price}}</h5>
+                          </td>
+                          <td>
+                              <div class="product_count">
+                                  <input type="number" name="{{cart_item.id}}-qty" value="{{cart_item.quantity}}" min="1" class="input-text qty" required>
+                              </div>
+                          </td>
+                          <td>
+                              <h5>${{cart_item.total}}</h5>
+                          </td>
+                          <td>
+                            <a href="{% url 'user:delete_from_cart' cart_item.id %}"><i class="ti-trash" style="font-size: 2rem; color: red;"></i></a>
+                          </td>
+                      </tr>
+                      {% endfor %}
+                      <tr class="bottom_button">
+                          <td>
+                          </td>
+                          <td>
+                          </td>
+                          <td>
+                          </td>
+                          <td>
+                          </td>
+                          <td>
+                            <input type="submit" class="button" value="Update Cart">
+                          </td>
+                      </tr>
+                    </form>
+                      <tr>
+                          <td>
+                          </td>
+
+                          <td>
+                          </td>
+
+                          <td>
+                          </td>
+
+                          <td>
+                              <h5>Subtotal</h5>
+                          </td>
+
+                          <td>
+                              <h5>${{subtotal}}</h5>
+                          </td>
+                      </tr>
+                      <tr class="out_button_area">
+                          <td class="d-none-l">
+
+                          </td>
+                          <td class="">
+
+                          </td>
+                          <td>
+
+                          </td>
+                          <td>
+                              <div class="checkout_btn_inner d-flex align-items-center">
+                                  <a class="gray_btn" href="{% url 'user:shop' %}">Continue Shopping</a>
+                                  <a class="primary-btn ml-2" href="{% url 'user:checkout' %}">Proceed to checkout</a>
+                              </div>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+</section>
+<!--================End Cart Area =================-->
+{% else %}
+<div class="container d-flex justify-content-center">
+    <div>
+        <img src="{% static 'img/emptycart.png' %}" alt="Empty shopping cart">
+        <p class="text-center">Your cart is empty! Add some items to continue.</p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

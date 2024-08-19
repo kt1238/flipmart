@@ -1,0 +1,45 @@
+{% extends 'siteadmin/home.html' %}
+{% block title %}{{product.name}} Details{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+
+<div class="container w-75 mx-auto bg-white p-4 rounded-5">
+    <div class="row">
+        <div class="col">
+            <img src="{{product.image.url}}" alt="Image of product" width="250px" height="250px">
+        </div>
+        <div class="col">
+            <h2>{{product.name}}</h2>
+            <dl>
+                <dt>Price</dt>
+                <dd>{{product.price}}</dd>
+                <dt>Category</dt>
+                <dd>{{product.category.name}}</dd>
+            </dl>
+            <a href="{% url 'products' %}"><button class="btn btn-outline-primary btn-lg fs-5">← Products</button></a>
+        </div>
+    </div>
+</div>
+
+
+<div class="bg-white mt-5 p-4 rounded-5">
+    <h3>Edit Details</h3>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="" class="form-label">Name</label>
+        <input type="text" name="name" value="{{product.name}}" class="form-control mb-3">
+        <label for="" class="form-label">Price</label>
+        <input type="number" step=".01" name="price" value="{{product.price}}" class="form-control mb-3">
+        <label for="" class="form-label">Category</label>
+        <select name="category" id="" class="form-select mb-3">
+            {% for category in categories %}
+            <option value="{{category.id}}" {% if category == product.category %}selected{% endif %}>{{category.name}}</option>
+            {% endfor %}
+        </select>
+        <label for="" class="form-label">Image</label>
+        <input type="file" name="image" class="form-control">
+        <br>
+        <input type="submit" class="btn btn-outline-secondary">
+    </form>
+</div>
+{% endblock%}

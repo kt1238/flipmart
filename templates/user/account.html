@@ -1,0 +1,67 @@
+{% extends 'user/home.html' %}
+{% block homelink %}{% endblock %}
+{% block title %}Account{% endblock %}
+{% block content %}
+<!-- ================ start banner area ================= -->	
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>Account</h1>
+            </div>
+        </div>
+</div>
+</section>
+<!-- ================ end banner area ================= -->
+<h2 class="text-center my-5">Change Details</h2>
+<form action="" method="post" class="container w-50 mb-5">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="" class="form-label">Username</label>
+        <input type="text" name="name" value="{{user.name}}" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label for="" class="form-label">Email</label>
+        <input type="text" name="email" value="{{user.email}}" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label for="" class="form-label">Password</label>
+        <input type="password" name="password" value="{{user.password}}" id="showpassbox" class="form-control">
+        <input type="checkbox" onclick="passwordVisibility()">
+        <label for="">Show Password</label>
+        <script>
+            function passwordVisibility(){
+                var checkbox = document.getElementById("showpassbox")
+                if (checkbox.type == "password"){
+                    checkbox.type = "text"
+                }
+                else {
+                    checkbox.type = "password"
+                }
+            }
+        </script>
+    </div class="mb-3">
+
+    <input type="submit" class="btn btn-outline-primary">
+    <br>
+    <a href="{% url 'user:delete_account' user.id %}" class="btn btn-outline-danger my-2">Delete Account</a>
+</form>
+<section>
+    <h2 class="text-center mb-3">Purchase History</h2>
+    <table class="table table-hover w-50 mx-auto">
+        <tr>
+            <th colspan="2">Product</th>
+            <th>Quantity</th>
+            <th>Date</th>
+        </tr>
+        {% for purchase in purchases %}
+        <tr>
+            <td>{{purchase.product}}</td>
+            <td><img src="{{purchase.product.image.url}}" alt="product image" width="100" height="100"></td>
+            <td>{{purchase.quantity}}</td>
+            <td>{{purchase.date}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</section>
+{% endblock content %}

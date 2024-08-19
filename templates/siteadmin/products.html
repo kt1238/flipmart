@@ -1,0 +1,51 @@
+{% extends 'siteadmin/home.html' %}
+{% block title %}Products{% endblock %}
+{% block heading %}Products{% endblock %}
+{% block content %}
+<div class="bg-white p-4 rounded-1 w-50 mx-auto" >
+    <h3>Add New Product</h3>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="" class="form-label">Product Name</label>
+        <input type="text" name="name" required class="form-control mb-3">
+        <label for="" class="form-label">Price</label>
+        <div class="d-flex">
+            <p class="form-control" style="width: 50px;">$</p>
+            <input type="number" step=".01" name="price" min="0.01" required class="form-control mb-3">
+        </div>    
+        <label for="" class="form-label">Category</label>
+        <select name="category" required class="form-select mb-3">
+            <option selected disabled value="">Choose a category</option>
+            {% for category in categories %}
+            <option value="{{category.id}}">{{category.name}}</option>
+            {% endfor %}
+        </select>
+        <label for="image" class="form-label">Image</label>
+        <input type="file" name="image" id="image" required class="form-control mb-3">
+        <br>
+        <input type="submit" class="btn btn-outline-secondary">
+    </form>
+    
+</div>
+<h3 class="mt-5 text-center">Product List</h3>
+<table class="table table-hover">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th></th>
+        <th></th>
+    </tr>
+    {% for product in products %}
+    <tr>
+        <td>{{product.id}}</td>
+        <td>{{product.name}}</td>
+        <td>{{product.price}}</td>
+        <td>{{product.category.name}}</td>
+        <td class="text-center" style="width: 200px;"><a href="{% url 'product' product.id %}"><button class="btn btn-outline-primary">View More</button></a></td>
+        <td class="text-center" style="width: 50px;"><a href="{% url 'delete_product' product.id %}"><button class="btn btn-outline-danger">Delete</button></a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock%}

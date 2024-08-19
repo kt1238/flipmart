@@ -1,0 +1,234 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{% block title %}Home{% endblock %}</title>
+  <link rel="icon" href="{% static 'img/Fevicon.png' %}" type="image/png">
+  <link rel="stylesheet" href="{% static 'vendors/bootstrap/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/fontawesome/css/all.min.css' %}">
+	<link rel="stylesheet" href="{% static 'vendors/themify-icons/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/nice-select/nice-select.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.theme.default.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.carousel.min.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  {% block header %}
+  <!--================ Start Header Menu Area =================-->
+	<header class="header_area">
+    <div class="main_menu">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <a class="navbar-brand logo_h" href="{% url 'user:home' %}"><img src="{% static 'img/logo.png' %}" alt=""></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+            <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+              <li class="nav-item {% block homelink %}active{% endblock%}"><a class="nav-link" href="{% url 'user:home' %}">Home</a></li>
+              <li class="nav-item {% block shoplink %}{% endblock%}"><a class="nav-link" href="{% url 'user:shop' %}">Shop</a></li>
+              <li class="nav-item {% block categorylink %}{% endblock%}"><a class="nav-link" href="{% url 'user:categories' %}">Categories</a></li>
+              <li class="nav-item {% block contactlink %}{% endblock contactlink %}"><a class="nav-link" href="{% url 'user:contact' %}">Contact</a></li>
+            </ul>
+
+            <ul class="nav-shop">
+              {% if not username %}
+              <li class="nav-item"><a class="button button-header" href="{% url 'user:login' %}">Login</a></li>
+              <li class="nav-item" style="margin: 0;"><a class="button button-header" href="{% url 'user:register' %}">Register</a></li>
+              {% else %}
+              <li>Hello {{username}}</li>
+              <li class="nav-item"><a href="{% url 'user:cart' %}"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">{{cart_items_count}}</span></button></a></li>
+              <li class="nav-item"><a href="{% url 'user:account' %}"><i class="ti-user"></i></a> </li>
+              <li class="nav-item"><a class="button button-header" href="{% url 'user:logout' %}">Logout</a></li> 
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+	<!--================ End Header Menu Area =================-->
+  {% endblock %}
+  {% block content %}
+  <main class="site-main">
+    <!--================ Hero banner start =================-->
+    <section class="hero-banner">
+      <div class="container">
+        <div class="row no-gutters align-items-center pt-60px">
+          <div class="col-5 d-none d-sm-block">
+            <div class="hero-banner__img">
+              <img class="img-fluid" src="{% static 'img/home/hero-banner.png' %}" alt="">
+            </div>
+          </div>
+          <div class="col-sm-7 col-lg-6 offset-lg-1 pl-4 pl-md-5 pl-lg-0">
+            <div class="hero-banner__content">
+              <h4>Welcome to,</h4>
+              <h1>Flipmart</h1>
+              <p>
+                With more than 1000+ products, we aim to provide you the luxury of choice,
+                right to your doorstep. Take a quick look now!
+              </p>
+              <a class="button button-hero" href="{% url 'user:shop' %}">Browse Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--================ Hero banner start =================-->
+
+    <!--================ Hero Carousel start =================-->
+    <section class="section-margin my-0">
+      <div class="owl-carousel owl-theme hero-carousel">
+        {% for category in categories %}
+        <div class="hero-carousel__slide">
+          <img src="{{category.image.url}}" alt="" width="400" height="300" style="object-fit: cover;">
+          <a href="{% url 'user:category' category.id %}" class="hero-carousel__slideOverlay">
+            <h3>{{category.name}}</h3>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    <!--================ Hero Carousel end =================-->
+    <!-- ================ offer section start ================= --> 
+    <section class="offer" id="parallax-1" data-anchor-target="#parallax-1" data-300-top="background-position: 20px 30px" data-top-bottom="background-position: 0 20px">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-5">
+            <div class="offer__content text-center">
+              <h3>Up To 50% Off</h3>
+              <h4>Winter Sale</h4>
+              <a class="button button--active mt-3 mt-xl-4" href="{% url 'user:shop' %}">Shop Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ================ offer section end ================= --> 
+
+    <!-- ================ Best Selling item  carousel ================= --> 
+    <section class="section-margin calc-60px">
+      <div class="container">
+        <div class="section-intro pb-60px">
+          <p>Popular Items Today</p>
+          <h2>Best <span class="section-intro__style">Sellers</span></h2>
+        </div>
+        <div class="owl-carousel owl-theme" id="bestSellerCarousel">
+          {% for product in products %}
+          <div class="card text-center card-product">
+              <div class="card-product__img">
+                <img class="card-img" src="{{product.image.url}}" alt="Product image" height="250px" width="250px">
+                <ul class="card-product__imgOverlay">
+                  <li><a href="{% url 'user:add_to_cart' product.id %}"><button onclick="addedToCart()"><i class="ti-shopping-cart"></i></button></a></li>
+                  <script>
+                    function addedToCart(){
+                      alert('This item was added to your cart')
+                    }
+                  </script>
+                  <li><a href="{% url 'user:buy_now' product.id %}"><button onclick="buyNow()"><i class="ti-credit-card"></i></button></a></li>
+                  <script>
+                    function buyNow(){
+                      alert('This will remove other items from your cart')
+                    }
+                  </script>
+                </ul>
+              </div>
+              <div class="card-body">
+                <a href="{% url 'user:category' product.category.id %}">{{product.category.name}}</a>
+                <h4 class="card-product__title"><a href="{% url 'user:product' product.id %}">{{product.name}}</a></h4>
+                <p class="card-product__price">${{product.price}}</p>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    <!-- ================ Best Selling item  carousel end ================= --> 
+  </main>
+  {% endblock %}
+
+  {% block footer %}
+  <!--================ Start footer Area  =================-->	
+	<footer class="footer">
+		<div class="footer-area">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 col-md-6 col-sm-6">
+						<div class="single-footer-widget tp_widgets">
+							<h4 class="footer_title large_title">Our Mission</h4>
+							<p>
+								To provide the largest range of products directly to your doorstep
+                with the most convenience possible
+							</p>
+							<p>
+								Our goal as a sustainable business is to provide for all of Earth's
+                inhabitants.
+							</p>
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-6">
+						<div class="single-footer-widget tp_widgets">
+							<h4 class="footer_title">Contact Us</h4>
+							<div class="ml-40">
+								<p class="sm-head">
+									<span class="fa fa-location-arrow"></span>
+									Head Office
+								</p>
+								<p>3rd Floor Josh Towers,<br>
+                  Civil Line Rd, Padamughal,<br>
+                  Kakkanad, Kochi, Kerala<br>
+                  
+                  682030</p>
+	
+								<p class="sm-head">
+									<span class="fa fa-phone"></span>
+									Phone Number
+								</p>
+								<a href="tel:+917845128956">
+									+917845128956
+                </a>
+								<p class="sm-head">
+									<span class="fa fa-envelope"></span>
+									Email
+								</p>
+								<a href="mailto:contact@flipmart.com">contact@flipmart.com</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="footer-bottom">
+			<div class="container">
+				<div class="row d-flex">
+					<p class="col-lg-12 footer-text text-center">
+						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!--================ End footer Area  =================-->
+  {% endblock %}
+
+
+  <script src="{% static 'vendors/jquery/jquery-3.2.1.min.js' %}"></script>
+  <script src="{% static 'vendors/bootstrap/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendors/skrollr.min.js' %}"></script>
+  <script src="{% static 'vendors/owl-carousel/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'vendors/nice-select/jquery.nice-select.min.js' %}"></script>
+  <script src="{% static 'vendors/jquery.ajaxchimp.min.js' %}"></script>
+  <script src="{% static 'vendors/mail-script.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
